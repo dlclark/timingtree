@@ -3,7 +3,7 @@ Timing tree library for Go program performance diagnostics
 
 # example usage
 ```go
-n := timingtree.Start("root name")
+n := timingtree.Start("root name", true)
 
 ch := n.StartChild("some op")
 SomeOp(ch)
@@ -30,7 +30,7 @@ Will output something like this if the root node time took longer than 1 second:
 There's also a shortform to just time a while function using defer:
 
 ```go
-n := timingtree.Start("root name")
+n := timingtree.Start("root name", true)
 
 func() {
 	defer n.StartChild("some func").End()

@@ -78,11 +78,10 @@ func (n Node) appendString(nesting int, buf *bytes.Buffer) {
 	buf.WriteString(n.Name)
 	buf.WriteString(": ")
 	buf.WriteString(n.duration.String())
-	if len(n.children) > 0 {
+
+	nesting++
+	for _, child := range n.children {
 		buf.WriteRune('\n')
-		nesting++
-		for _, child := range n.children {
-			child.appendString(nesting, buf)
-		}
+		child.appendString(nesting, buf)
 	}
 }

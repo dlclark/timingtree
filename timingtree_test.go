@@ -124,3 +124,19 @@ func TestNilNode(t *testing.T) {
 		t.Fatalf("timing wanted %v, got %v", want, got)
 	}
 }
+
+var multi = regexp.MustCompile("Some root: 2\\.[0-9]+ms\n\ta child: 1\\.[0-9]+ms\n\tanother child: 1\\.[0-9]+ms")
+
+func TestMutliChildrenString(t *testing.T) {
+	n := Start("Some root")
+	ch := n.StartChild("a child")
+	time.Sleep(time.Millisecond)
+	ch.End()
+	ch = n.StartChild("another child")
+	time.Sleep(time.Millisecond)
+	ch.End()
+	n.End()
+	if !multi.MatchString(n.String()) {
+		t.Fatalf("Expected match but got %v", n.String())
+	}
+}

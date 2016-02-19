@@ -19,8 +19,11 @@ func Start(name string) *Node {
 	return &Node{Name: name, startTime: time.Now()}
 }
 
-// Start child adds a child node to the current node and starts a sub-timer
+// StartChild adds a child node to the current node and starts a sub-timer
 func (n *Node) StartChild(childName string) *Node {
+	if n == nil {
+		return nil
+	}
 	if n.ended {
 		panic("Cannot start a child on a node that is already ended")
 	}
@@ -31,6 +34,9 @@ func (n *Node) StartChild(childName string) *Node {
 
 // End the node and any un-ended children
 func (n *Node) End() {
+	if n == nil {
+		return
+	}
 	if n.ended {
 		panic("Cannot end a node that is already ended")
 	}
@@ -46,6 +52,9 @@ func (n *Node) End() {
 
 // Duration returns the current duration of the tree
 func (n *Node) Duration() time.Duration {
+	if n == nil {
+		return 0
+	}
 	if n.ended {
 		return n.duration
 	}

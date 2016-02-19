@@ -109,3 +109,18 @@ func TestDeferedNodeEnd(t *testing.T) {
 		t.Fatalf("Expected first root time between 1-2 milli, got %v", got.String())
 	}
 }
+
+func TestNilNode(t *testing.T) {
+	// none of this should throw -- this allows a simple niling of the root
+	// and subsequent calls become cheaper, just don't output the timing tree!
+	var n *Node
+	ch := n.StartChild("childName")
+
+	if ch != nil {
+		t.Fatalf("Expected nil child, got %v", ch)
+	}
+	ch.End()
+	if want, got := time.Duration(0), n.Duration(); want != got {
+		t.Fatalf("timing wanted %v, got %v", want, got)
+	}
+}
